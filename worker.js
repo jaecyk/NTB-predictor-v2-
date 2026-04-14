@@ -3,8 +3,19 @@ addEventListener("fetch", event => {
 });
 
 async function handleRequest(request) {
-  const url = "https://web-production-fe355.up.railway.app";
+  const api = "https://web-production-fe355.up.railway.app";
   const path = new URL(request.url).pathname;
-  const target = path === "/" ? url + "/predict" : url + path;
-  return fetch(target, request);
+  
+  // Proxy API calls to Railway
+  if (path.startsWith("/predict") || path.startsWith("/predictions") || path.startsWith("/health") || path.startsWith("/snapshots")) {
+    const target = api + request.url.replace(new URL(request.url).origin, "");
+    return fetch(target, {
+      method: request.method,
+      headers: request.headers,
+      body: request.body
+    });
+  }
+  
+  // Serve dashboard for everything else
+  return fetch("https://nga-auction-v2.pages.dev/");
 }
