@@ -59,12 +59,15 @@ Copy these 3 files from your v1 repo (`jaecyk/NTB-predictor`) into this repo roo
 
 ## API Endpoints
 
+> Optional security: set `PREDICTOR_API_KEY` and send it as `X-API-Key` for `/predict` and `/predictions/clear`.
+
 | Method | Endpoint | What it does |
 |--------|----------|--------------|
 | GET | `/health` | Check API status and loaded models |
 | POST | `/predict` | Submit 14 features → get prediction(s) |
 | GET | `/predictions/latest` | Latest prediction per tenor |
-| GET | `/predictions/history` | Full prediction log (limit=50) |
+| GET | `/model/info` | Runtime model metadata/capabilities |
+| GET | `/predictions/history` | Full prediction log (limit=50, max=500) |
 | DELETE | `/predictions/clear` | Clear all records (dev only) |
 
 ### POST /predict — example request body
